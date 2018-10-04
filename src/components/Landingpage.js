@@ -4,6 +4,7 @@ import Slider from './Slider'
 import Books from './Books'
 import Footer from './Footer'
 
+
 export class Landingpage extends Component {
   render() {
     return (

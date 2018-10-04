@@ -56,7 +56,7 @@ class Navbarx extends React.Component {
                 </DropdownMenu>
               </UncontrolledDropdown>
               <NavItem>
-                <NavLink href="/تسجيل">تسجيل</NavLink>
+               <NavLink><Link to='/signup'>تسجيل </Link></NavLink> 
               </NavItem>
              
             </Nav>
