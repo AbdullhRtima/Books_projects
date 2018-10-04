@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Link} from 'react-router-dom';
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Button, Container, Row, Col } from 'reactstrap'; 
 
@@ -75,7 +76,7 @@ let bookCards = books.map((book) =>{
                 <CardTitle>{book.name} </CardTitle>
                 <CardSubtitle>{book.case}</CardSubtitle>
                 <CardText>{book.description}</CardText>
-                <Button>MORE</Button>
+                <Link to='/books/details'><Button>MORE</Button></Link> 
             </CardBody>
          </Card>
         </Col>
