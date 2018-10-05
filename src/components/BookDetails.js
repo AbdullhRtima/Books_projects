@@ -9,10 +9,12 @@ export class BookDetails extends Component {
              <Row sm='6'>
                  <Col>  <img  src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=381" alt="Card image cap" /> </Col>
                  <Col>
-                  <h1>كتاب عقيدة </h1>
+                  <h1> name  </h1>
                   <p>  للبيع بسعر 5 شيكل  </p>
                   <p>  الكتاب بحالة جيدة مستعمل 90 سنة بس روح اشتري واحد من عند سعيد احسن اللك بيعمل عروض حلوة </p>
                  
+                 </Col>
+                 <Col>
                  </Col>
 
              </Row>
