@@ -40,7 +40,7 @@ class Navbarx extends React.Component {
                 <DropdownToggle nav caret>
                   الكلية 
                 </DropdownToggle>
-                <DropdownMenu right>
+                <DropdownMenu left >
                   <DropdownItem>
                     الهندسة
                   </DropdownItem >
@@ -58,6 +58,9 @@ class Navbarx extends React.Component {
               </UncontrolledDropdown>
               <NavItem>
                <NavLink><Link to='/signup'>تسجيل </Link></NavLink> 
+              </NavItem>
+              <NavItem>
+               <NavLink><Link to='/login'>تسجيل دخول  </Link></NavLink> 
               </NavItem>
              
             </Nav>

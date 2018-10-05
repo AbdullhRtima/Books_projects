@@ -6,7 +6,7 @@ export class Signup extends Component {
   render() {
     return (
       <Container style={{ padding: '.5rem' , marginTop : 40 , textAlign :'right'  }}>
-      <Row>
+      <Row xs='4'>
         <Col>
       <Form className="signup">
         <h1> التسجيل  </h1>
