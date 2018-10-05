@@ -71,7 +71,7 @@ let bookCards = books.map((book) =>{
      return (
         <Col sm="4" book={book} >
           <Card>
-            <CardImg src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" />
+            <CardImg src="book.jpg" alt="Card image cap" />
             <CardBody>
                 <CardTitle>{book.name} </CardTitle>
                 <CardSubtitle>{book.case}</CardSubtitle>
