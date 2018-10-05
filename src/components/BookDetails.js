@@ -8,15 +8,12 @@ export class BookDetails extends Component {
          <Container style={{ padding: '.5rem' , marginTop : 40  }}>
              <Row sm='6'>
                  <Col>  <img  src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=381" alt="Card image cap" /> </Col>
-                 <Col>
-                  <h1> name  </h1>
+                 <Col  style={{  textAlign : 'right' }}>
+                  <h1> سيرة   </h1>
                   <p>  للبيع بسعر 5 شيكل  </p>
                   <p>  الكتاب بحالة جيدة مستعمل 90 سنة بس روح اشتري واحد من عند سعيد احسن اللك بيعمل عروض حلوة </p>
                  
                  </Col>
-                 <Col>
-                 </Col>
-
              </Row>
          </Container>
      </div>

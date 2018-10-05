@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import { Card ,InputGroup, InputGroupAddon, InputGroupText, Input , Container,
    Row, Col,Button, Form, FormGroup, Label, FormText } from 'reactstrap';
-import Navbar from './Navbar'
 
 export class Signup extends Component {
   render() {
     return (
-      <Container className='singup' style={{ padding: '.5rem' , marginTop : 40  }}>
+      <Container style={{ padding: '.5rem' , marginTop : 40 , textAlign :'right'  }}>
       <Row>
         <Col>
-      <Form>
+      <Form className="signup">
         <h1> التسجيل  </h1>
         <FormGroup>
           <Label for="exampleEmail">الاسم </Label>
@@ -45,4 +44,4 @@ export class Signup extends Component {
   }
 }
 
-export default Signup
+export default Signup ;
