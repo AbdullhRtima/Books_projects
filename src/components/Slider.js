@@ -73,7 +73,7 @@ class Slider extends Component {
           onExiting={this.onExiting}
           onExited={this.onExited}
         >
-          <CarouselCaption className="text-danger" captionText={item.caption} captionHeader={item.caption} />
+         <img style={{height: 700 , width: 1500}} src="3.jpg"/>
         </CarouselItem>
       );
     });

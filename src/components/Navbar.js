@@ -32,7 +32,7 @@ class Navbarx extends React.Component {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand >كتابي</NavbarBrand>
+          <NavbarBrand style ={{textAlign : 'center'}} >كتابي</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
