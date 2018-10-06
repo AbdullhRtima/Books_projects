@@ -6,8 +6,8 @@ export class Login extends Component {
   render() {
     return (
       <Container style={{ padding: '.5rem' , marginTop : 40 , textAlign :'right'  }}>
-      <Row xs="6" sm="4">
-      <Col></Col>
+      <Row>
+      <Col  xs='3'></Col>
         <Col>
       <Form className="login">
         <h1>  تسجيل دخول </h1>
@@ -23,7 +23,7 @@ export class Login extends Component {
         <Button>تسجيل دخول </Button>
       </Form>
       </Col>
-      <Col></Col>
+      <Col  xs='3'></Col>
       </Row>
       </Container>
     )

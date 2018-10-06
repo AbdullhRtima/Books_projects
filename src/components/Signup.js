@@ -7,7 +7,7 @@ export class Signup extends Component {
     return (
       <Container style={{ padding: '.5rem' , marginTop : 40 , textAlign :'right'  }}>
       <Row xs='4'>
-      <Col></Col>
+      <Col xs='3'></Col>
         <Col>
       <Form className="signup">
         <h1> التسجيل</h1>
@@ -39,7 +39,7 @@ export class Signup extends Component {
         <Button>تسجيل</Button>
       </Form>
       </Col>
-      <Col></Col>
+      <Col  xs='3'></Col>
       </Row>
       </Container>
     )

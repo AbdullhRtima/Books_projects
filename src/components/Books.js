@@ -61,6 +61,7 @@ const books = [
 
     },
 ]
+
 class Books extends Component {
 constructor(props){
     super(props);
@@ -71,12 +72,12 @@ let bookCards = books.map((book) =>{
      return (
         <Col sm="3" book={book} >
           <Card>
-            <CardImg src="book.jpg" alt="Card image cap" />
+          <Link to='/books/details'> <CardImg src="book.jpg" alt="Card image cap" /> </Link> 
             <CardBody>
                 <CardTitle>{book.name} </CardTitle>
                 <CardSubtitle>{book.case}</CardSubtitle>
                 <CardText>{book.description}</CardText>
-                <Link to='/books/details'><Button>MORE</Button></Link> 
+               
             </CardBody>
          </Card>
         </Col>

@@ -31,7 +31,7 @@ class Navbarx extends React.Component {
   render() {
     return (
       <div>
-        <Navbar color="light" light expand="md">
+        <Navbar  style={{backgroundColor: '#e8e3e3'}}  expand="md">
           <NavbarBrand style ={{textAlign : 'center'}} >كتابي</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
