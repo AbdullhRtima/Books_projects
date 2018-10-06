@@ -6,7 +6,7 @@ export class Login extends Component {
   render() {
     return (
       <Container style={{ padding: '.5rem' , marginTop : 40 , textAlign :'right'  }}>
-      <Row xs='4'>
+      <Row xs="auto">
         <Col>
       <Form className="login">
         <h1>  تسجيل دخول </h1>

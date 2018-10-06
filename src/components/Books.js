@@ -69,7 +69,7 @@ constructor(props){
 render() {
 let bookCards = books.map((book) =>{
      return (
-        <Col sm="4" book={book} >
+        <Col sm="3" book={book} >
           <Card>
             <CardImg src="book.jpg" alt="Card image cap" />
             <CardBody>
@@ -86,6 +86,8 @@ let bookCards = books.map((book) =>{
 return (
  <div>
     <Container>
+    <h1 style={{textAlign: "center"}}>أحدث الكتب  </h1>
+    <br/>
         <Row>
           {bookCards}
         </Row> 

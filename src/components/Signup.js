@@ -7,9 +7,10 @@ export class Signup extends Component {
     return (
       <Container style={{ padding: '.5rem' , marginTop : 40 , textAlign :'right'  }}>
       <Row xs='4'>
+      <Col></Col>
         <Col>
       <Form className="signup">
-        <h1> التسجيل  </h1>
+        <h1> التسجيل</h1>
         <FormGroup>
           <Label for="exampleEmail">الاسم </Label>
           <Input type="text" name="name" placeholder="الاسم مثلا كريم  حميد " />
@@ -38,6 +39,7 @@ export class Signup extends Component {
         <Button>تسجيل</Button>
       </Form>
       </Col>
+      <Col></Col>
       </Row>
       </Container>
     )
