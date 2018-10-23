@@ -31,9 +31,9 @@ class Navbarx extends React.Component {
   render() {
     return (
       <div>
-        <Navbar  style={{backgroundColor: '#e8e3e3'}}  expand="md">
-          <NavbarBrand style ={{textAlign : 'center'}} >كتابي</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
+        <Navbar expand="md">
+          <NavbarBrand href="/" className="mr-auto" >كتابي</NavbarBrand>
+          <NavbarToggler onClick={this.toggle}  className="mr-2" />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
             <UncontrolledDropdown nav inNavbar>
@@ -50,7 +50,7 @@ class Navbarx extends React.Component {
                   <DropdownItem >
                     الشريعة
                   </DropdownItem>
-                  <DropdownItem divider />
+                  <DropdownItem divider/>
                   <DropdownItem>
                     Reset
                   </DropdownItem>
@@ -61,8 +61,7 @@ class Navbarx extends React.Component {
               </NavItem>
               <NavItem>
                <NavLink><Link to='/login'>تسجيل دخول  </Link></NavLink> 
-              </NavItem>
-             
+              </NavItem> 
             </Nav>
           </Collapse>
         </Navbar>

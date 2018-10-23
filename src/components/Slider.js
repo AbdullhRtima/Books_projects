@@ -73,7 +73,9 @@ class Slider extends Component {
           onExiting={this.onExiting}
           onExited={this.onExited}
         >
-         <img style={{height: 700 , width: 1500}} src="3.jpg"/>
+         <img style={{
+         height: 'auto' , 
+         width:'100%',  }} src="3.jpg"/>
         </CarouselItem>
       );
     });
