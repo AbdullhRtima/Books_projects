@@ -11,7 +11,8 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem } from 'reactstrap';
+  DropdownItem ,
+  Button } from 'reactstrap';
 
 export default class Navbarx extends React.Component {
   constructor(props) {
@@ -36,7 +37,7 @@ export default class Navbarx extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
+                <DropdownToggle nav caret style= {{ marginTop: 10,}}  >
                   الكلية 
                 </DropdownToggle>
                 <DropdownMenu left >
@@ -56,10 +57,10 @@ export default class Navbarx extends React.Component {
                 </DropdownMenu>
               </UncontrolledDropdown>
               <NavItem>
-               <NavLink><Link to='/signup'>تسجيل </Link></NavLink> 
+               <NavLink ><Link to='/signup'><Button color="success" >تسجيل</Button> </Link></NavLink> 
               </NavItem>
               <NavItem>
-               <NavLink><Link to='/login'>تسجيل دخول  </Link></NavLink> 
+               <NavLink><Link to='/login'><Button color="success" >تسجيل دخول</Button> </Link></NavLink> 
               </NavItem>
  
             </Nav>
