@@ -4,7 +4,7 @@ export class profile extends Component {
   render() {
     return (
       <div>
-        <h1>   </h1>
+       <image style={{alignItems : 'center '}} src="" alt="profile-img"/>
       </div>
     )
   }

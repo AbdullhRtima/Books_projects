@@ -13,8 +13,7 @@ import {
   DropdownMenu,
   DropdownItem } from 'reactstrap';
 
-
-class Navbarx extends React.Component {
+export default class Navbarx extends React.Component {
   constructor(props) {
     super(props);
 
@@ -31,11 +30,11 @@ class Navbarx extends React.Component {
   render() {
     return (
       <div>
-        <Navbar expand="md">
-          <NavbarBrand href="/" className="mr-auto" >كتابي</NavbarBrand>
-          <NavbarToggler onClick={this.toggle}  className="mr-2" />
+        <Navbar color="light" light expand="md">
+          <NavbarBrand href="/">كتابي</NavbarBrand>
+          <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
+          <Nav className="ml-auto" navbar>
             <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
                   الكلية 
@@ -61,7 +60,8 @@ class Navbarx extends React.Component {
               </NavItem>
               <NavItem>
                <NavLink><Link to='/login'>تسجيل دخول  </Link></NavLink> 
-              </NavItem> 
+              </NavItem>
+ 
             </Nav>
           </Collapse>
         </Navbar>
@@ -69,5 +69,3 @@ class Navbarx extends React.Component {
     );
   }
 }
-
-export default Navbarx ;
