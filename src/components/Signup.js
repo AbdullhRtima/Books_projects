@@ -4,6 +4,7 @@ import { Card ,InputGroup, InputGroupAddon, InputGroupText, Input , Container,
 
 export class Signup extends Component {
   render() {
+         
     return (
       <Container style={{ padding: '.5rem' , marginTop : 40 , textAlign :'right'  }}>
       <Row xs='4'>
