@@ -7,7 +7,7 @@ export class BookDetails extends Component {
      <div>
          <Container style={{ padding: '.5rem' , marginTop : 40  }}>
              <Row sm='6'>
-                 <Col>  <img  src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=381" alt="Card image cap" /> </Col>
+                 <Col>  <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=381" alt="Card image cap" /> </Col>
                  <Col  style={{  textAlign : 'right' }}>
                   <h1> سيرة   </h1>
                   <p>  للبيع بسعر 5 شيكل  </p>

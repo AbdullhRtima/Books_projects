@@ -75,7 +75,7 @@ class Slider extends Component {
         >
          <img style={{
          height:'100%' , 
-         width:'100%' }} src="3.jpg"/>
+         width:'100%' }} src="2.jpg"/>
         </CarouselItem>
       );
     });
