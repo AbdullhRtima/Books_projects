@@ -2,48 +2,132 @@ import React, { Component } from 'react'
 import { Card ,InputGroup, InputGroupAddon, InputGroupText, Input , Container,
    Row, Col,Button, Form, FormGroup, Label, FormText } from 'reactstrap';
 
+import { connect } from 'react-redux';
+import addNewUser from '../actions/registerAction';
+
 export class Signup extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      username:"",
+      email:"",
+      password:"",
+      confirmPassword:"",
+      whoyouare:"",
+      image:{},
+      registerError:""
+    }
+  }
+  onChange = event =>{
+    switch (event.target.name) {
+      case "name":
+        this.setState({
+          username: event.target.value
+        })
+        break;
+      case "email":
+      this.setState({
+        email: event.target.value
+      })
+      break;
+      case "password":
+        this.setState({
+          password: event.target.value,
+          registerError: "",
+        })
+        break;
+      case "confirm password":
+        this.setState({
+          confirmPassword: event.target.value,
+          registerError: "",
+        })
+        break;
+      case "whoyouare":
+        this.setState({
+          whoyouare: event.target.value
+        })
+        break;
+      case "image":
+        {
+          const file = event.target.files[0];
+          const fileName = event.target.files[0].name;
+          const imageData = new FormData();
+          imageData.append('image', file);
+          imageData.append('name', fileName);
+          this.setState({
+            image: imageData
+          })
+        }
+        break;
+      default:
+
+    }
+  }
+  onSubmit = event => {
+    event.preventDefault();
+    const {
+      addNewUser
+    } = this.props;
+    console.log(addNewUser, ' add new user');
+    if(this.state.password !== this.state.confirmPassword){
+      return this.setState({
+        registerError:"Sorry, Passwords are not matched!!"
+      })
+    }
+    addNewUser({
+      name: this.state.username,
+      password:this.state.password,
+      email:this.state.email
+    });
+  }
   render() {
     return (
       <Container style={{ padding: '.5rem' , marginTop : 40 , textAlign :'right'  }}>
       <Row xs='4'>
       <Col xs='3'></Col>
         <Col>
-      <Form className="signup">
+      <Form className="signup" onSubmit={this.onSubmit} encType="multipart/form-data">
         <h1> التسجيل</h1>
         <FormGroup>
           <Label for="exampleEmail">الاسم </Label>
-          <Input type="text" name="name" placeholder="الاسم مثلا كريم  حميد " />
+          <Input onChange={this.onChange} type="text" name="name" placeholder="الاسم مثلا كريم  حميد " />
         </FormGroup>
         <FormGroup>
           <Label for="exampleEmail">البريد الالكتروني </Label>
-          <Input type="email" name="email" placeholder="example@host.com" />
+          <Input onChange={this.onChange} type="email" name="email" placeholder="example@host.com" />
         </FormGroup>
         <FormGroup>
           <Label for="examplePassword">كلمة المرور</Label>
-          <Input type="password" name="password"  placeholder="كلمة المرور" />
+          <Input onChange={this.onChange} type="password" name="password"  placeholder="كلمة المرور" />
         </FormGroup>
         <FormGroup>
         <Label for="confirmPassword">تاكيد كلمة المرور</Label>
-        <Input type="password" name="confirm password" placeholder="تاكيد كلمة المرور" />
-        
+        <Input onChange={this.onChange} type="password" name="confirm password" placeholder="تاكيد كلمة المرور" />
+
         </FormGroup>
         <FormGroup>
           <Label for="Text">اخبر اصدقاءك من انت</Label>
-          <Input type="textarea" name="text" id="exampleText" />
+          <Input onChange={this.onChange} type="textarea" name="whoyouare" id="exampleText" />
         </FormGroup>
         <FormGroup>
           <Label for="File">صورة شخصية </Label>
-          <Input type="file" name="file"  />
+            <Input onChange={this.onChange} type="file" name="image"  />
         </FormGroup>
-        <Button>تسجيل</Button>
+        <Button type="submit" >تسجيل</Button>
       </Form>
       </Col>
       <Col  xs='3'></Col>
+      {
+        this.state.registerError ?
+          <h4>{this.state.registerError}</h4>
+        :(null)
+      }
       </Row>
       </Container>
     )
   }
 }
-
-export default Signup ;
+const mapDispatchToProps = {
+  addNewUser,
+}
+export default connect(null, mapDispatchToProps)(Signup) ;
