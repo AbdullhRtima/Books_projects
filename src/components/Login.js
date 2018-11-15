@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
+import axios from 'axios';
 
 import { Card ,InputGroup, InputGroupAddon, InputGroupText, Input , Container,
    Row, Col,Button, Form, FormGroup, Label, FormText } from 'reactstrap';
 
-import { connect } from 'react-redux';
-import loginUser from '../actions/loginAction';
+import { setInStorage } from '../helpers/storage.js';
 
 export class Login extends Component {
   constructor(props){
-    super(props)
+    super(props);
     this.state = {
       email:"",
       password:"",
@@ -24,7 +24,8 @@ export class Login extends Component {
         break;
       case "password":
         this.setState({
-          password: event.target.value
+          password: event.target.value,
+          loginError:""
         })
         break;
       default:
@@ -36,13 +37,33 @@ export class Login extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    const {
-      loginUser
-    } = this.props;
-    console.log(this.props, 'aaaaaaaaaaaaaaa');
+    const headers = {
+      'Access-Control-Allow-Origin': '*',
+      "changeOrigin": true
+    }
+    axios.post('https://stormy-eyrie-81072.herokuapp.com/api/auth/login',
+        {
+             email: this.state.email,
+             password: this.state.password
+        }
+    )
+     .then(res => {
+       console.log('aaaaaaa');
+       if(res.status === 200){
+          setInStorage("token", res.data.token);
+          this.props.history.push('/profile');
+       }
+     })
+     .catch(err => {
+       console.log(err);
+       this.setState({
+           loginError : "User name or password is invalid! ",
+         })
+     })
   }
 
   render() {
+    const {loginError} = this.state
     return (
       <Container style={{ padding: '.5rem' , marginTop : 40 , textAlign :'right'  }}>
       <Row>
@@ -58,7 +79,13 @@ export class Login extends Component {
           <Label for="examplePassword">كلمة المرور</Label>
           <Input onChange={this.onChange} type="password" name="password"  placeholder="كلمة المرور" />
         </FormGroup>
-
+        <a href='/recovery'>
+          <h5>هل نسيت كلمة المرور ؟</h5>
+        </a>
+        {
+          loginError ?
+            <div>{loginError}</div>:(null)
+        }
         <Button type='submit' >تسجيل دخول </Button>
       </Form>
       </Col>
@@ -69,13 +96,4 @@ export class Login extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  console.log(state); // state
-}
-
-const mapDispatchToProps = () => {
-  console.log(loginUser, 'Landingpage');
-  return loginUser
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login) ;
+export default Login;

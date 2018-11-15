@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { Card ,InputGroup, InputGroupAddon, InputGroupText, Input , Container,
    Row, Col,Button, Form, FormGroup, Label, FormText } from 'reactstrap';
+import axios from 'axios';
 
-import { connect } from 'react-redux';
-import addNewUser from '../actions/registerAction';
 
 export class Signup extends Component {
   constructor(props){
@@ -65,22 +64,34 @@ export class Signup extends Component {
   }
   onSubmit = event => {
     event.preventDefault();
-    const {
-      addNewUser
-    } = this.props;
-    console.log(addNewUser, ' add new user');
+    console.log('i am inisde on submit register');
     if(this.state.password !== this.state.confirmPassword){
       return this.setState({
         registerError:"Sorry, Passwords are not matched!!"
       })
     }
-    addNewUser({
-      name: this.state.username,
-      password:this.state.password,
-      email:this.state.email
-    });
+    axios.post('https://stormy-eyrie-81072.herokuapp.com/api/auth/signup', {
+        name: this.state.username,
+        password:this.state.password,
+        email:this.state.email
+     }
+    )
+    .then(res => {
+      console.log(res);
+      console.log(res.status);
+      if(res.status === 201){
+        this.props.history.push('/login')
+      }
+    })
+    .catch(err => {
+      console.log('err', err);
+      this.setState({
+          registerError :"err comes up!",
+        })
+    })
   }
   render() {
+    console.log(this.state);
     return (
       <Container style={{ padding: '.5rem' , marginTop : 40 , textAlign :'right'  }}>
       <Row xs='4'>
@@ -116,10 +127,11 @@ export class Signup extends Component {
         <Button type="submit" >تسجيل</Button>
       </Form>
       </Col>
-      <Col  xs='3'></Col>
+      <Col  xs='3'>
+      </Col>
       {
         this.state.registerError ?
-          <h4>{this.state.registerError}</h4>
+        <h4>{this.state.registerError}</h4>
         :(null)
       }
       </Row>
@@ -127,7 +139,5 @@ export class Signup extends Component {
     )
   }
 }
-const mapDispatchToProps = {
-  addNewUser,
-}
-export default connect(null, mapDispatchToProps)(Signup) ;
+
+export default Signup;
