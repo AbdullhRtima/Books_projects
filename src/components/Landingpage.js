@@ -6,7 +6,15 @@ import Footer from './Footer'
 
 
 export class Landingpage extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+
+    }
+  }
+
   render() {
+    console.log(this.props);
     return (
       <div>
         <Navbar/>
@@ -19,4 +27,4 @@ export class Landingpage extends Component {
   }
 }
 
-export default Landingpage
+export default Landingpage;

@@ -37,24 +37,6 @@ export default class Navbarx extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret style= {{ marginTop: 10,}}  >
-                  الكلية 
-                </DropdownToggle>
-                <DropdownMenu left >
-                  <DropdownItem>
-                    الهندسة
-                  </DropdownItem >
-                  <DropdownItem >
-                    الطب 
-                  </DropdownItem>
-                  <DropdownItem >
-                    الشريعة
-                  </DropdownItem>
-                  <DropdownItem divider/>
-                  <DropdownItem>
-                    Reset
-                  </DropdownItem>
-                </DropdownMenu>
               </UncontrolledDropdown>
               <NavItem>
                <NavLink ><Link to='/signup'><Button color="success" >تسجيل</Button> </Link></NavLink> 
@@ -62,7 +44,6 @@ export default class Navbarx extends React.Component {
               <NavItem>
                <NavLink><Link to='/login'><Button color="success" >تسجيل دخول</Button> </Link></NavLink> 
               </NavItem>
- 
             </Nav>
           </Collapse>
         </Navbar>
