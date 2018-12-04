@@ -47,7 +47,7 @@ class Recovery extends React.Component{
           }} required/>
         </FormGroup>
        
-        <input type='submit' />
+        <Button type='submit' > اعادة تعين لكمة مرور </Button>
         {
           this.state.message ?
             <h5>{this.state.message}</h5>

@@ -234,12 +234,13 @@ export class Profile extends Component {
           onClick={() => {
             const img = prompt('Enter img path');
             const name = prompt('Enter book name');
+            const type = prompt('Enter book type');
             const category = prompt('Enter book category');
             if (img) {
               this.setState(state => ({
                 books: [
                   ...state.books,
-                  { id: uuid(), img ,name,category },
+                  { id: uuid(), img ,name,category,type },
                 ],
               }));
             }
@@ -249,66 +250,7 @@ export class Profile extends Component {
         </Button>
         </Col>
         </Row>
-      <Row>
-      
-        <Col >
-          <div>
-            {/* {
-              userBooks
-                ? userBooks.map((book) => <Col sm="3">
-                  <Card>
-                    <CardImg src="book.jpg" alt="Card image cap"/>
-                    <CardBody>
-                      <CardTitle>{book.name}
-                      </CardTitle>
-                      <CardSubtitle>{book.case}</CardSubtitle>
-                      <CardText>{book.description}</CardText>
-                      <Button color="danger">
-                        حدف</Button>
-                      <Button color="secondary">
-                        تعديل
-                      </Button>
-
-                    </CardBody>
-                  </Card>
-                </Col>)
-                : <div>
-                    لم تقم بإضافة أي كتاب حتي الان
-                  </div>
-            } */}
-            {/* <Form onSubmit={this.onSubmitNewBook} className="login">
-              <h1>
-                اضافة كتاب
-              </h1>
-              <FormGroup>
-                <Label for="BookName">إسم الكتاب</Label>
-                <Input onChange={this.onChange} type="text" name="BookName" placeholder="أدخل هنا اسم الكتاب"/>
-              </FormGroup>
-              <FormGroup>
-                <Label for="BookType"></Label>
-                <Input onChange={this.onChange} type="text" name="BookType" placeholder="ادخل هنا النوع الذي يتعلق به الكتاب مثال: نسخة حقيقة او نسخة الكترونية"/>
-              </FormGroup>
-              <FormGroup>
-                <Label for="BookCategory"></Label>
-                <Input onChange={this.onChange} type="textarea" name="BookCategory" placeholder="أدخل هنا القسم الذي يتعلق فيه الكتاب"/>
-              </FormGroup>
-              <Button type='submit'>تأكيد الإضافة</Button>
-            </Form> */}
-            {/* <Container>
-              <h1 style={{
-                  textAlign: "center"
-                }}>
-                اخر ما قمت باضافته
-              </h1>
-              <br/>
-              <Row>
-                {bookCards}
-              </Row>
-            </Container> */
-            }
-          </div>
-        </Col>
-      </Row>
+     
     </Container>)
   }
 }
