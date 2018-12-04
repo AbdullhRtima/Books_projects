@@ -43,56 +43,28 @@ export class Login extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    fetch('https://stormy-eyrie-81072.herokuapp.com/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Access-Control-Allow-Credentials':true,
-        'Access-Control-Allow-Origin':"*",
-        "Content-Type": "application/json",
-        'Accept': "application/json"
-      },
-      'credentials': 'include',
-      'mode': 'cors',
-      body: JSON.stringify(
+    axios.post('https://stormy-eyrie-81072.herokuapp.com/api/auth/login',
         {
-          email: this.state.email,
-          password: this.state.password
+             email: this.state.email,
+             password: this.state.password
         }
-      )
-    })
-    .then(response =>
-      {
-        console.log(response, 'response is here');
-        response.json()
-      })
-    .then(response => console.log('Success:', JSON.stringify(response)))
-    .catch(error =>
-        {
-       console.error('Error:', error)});
-
-    // const headers = {
-    //   'Access-Control-Allow-Origin': '*',
-    //   "changeOrigin": true
-    // }
-    // axios.post('https://stormy-eyrie-81072.herokuapp.com/api/auth/login',
-    //     {
-    //          email: this.state.email,
-    //          password: this.state.password
-    //     }
-    // )
-    //  .then(res => {
-    //    console.log('aaaaaaa');
-    //    if(res.status === 200){
-    //       setInStorage("token", res.data.token);
-    //       this.props.history.push('/profile');
-    //    }
-    //  })
-    //  .catch(err => {
-    //    console.log(err);
-    //    this.setState({
-    //        loginError : "User name or password is invalid! ",
-    //      })
-    //  })
+    )
+     .then(res => {
+       console.log(res, 'res');
+       if(res.data.status === "ok"){
+         //** this is because the response.data comes up as a string!
+         //** it have to convert it as a json!*/
+          // const response = JSON.parse(res.data.substring(res.data.indexOf('{'),res.data.indexOf(`}`)+1));
+          // console.log(response);
+          setInStorage("token", res.data.token);
+          this.props.history.push('/profile');
+       }
+     })
+     .catch(err => {
+       this.setState({
+           loginError : "User name or password is invalid! ",
+         })
+     })
   }
 
   render() {
