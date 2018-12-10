@@ -13,6 +13,9 @@ import {
   DropdownMenu,
   DropdownItem ,
   Button } from 'reactstrap';
+import {setInStorage, getFromStorage} from '../helpers/storage.js';
+import axios from 'axios';
+import {BarLoader} from 'react-spinners';
 
 export default class Navbarx extends React.Component {
   constructor(props) {
@@ -20,7 +23,8 @@ export default class Navbarx extends React.Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      isLoading:true
     };
   }
   toggle() {
@@ -28,7 +32,42 @@ export default class Navbarx extends React.Component {
       isOpen: !this.state.isOpen
     });
   }
+  componentDidMount(){
+    const token = getFromStorage('token');
+    this.setState({token});
+    axios.get('https://stormy-eyrie-81072.herokuapp.com/api/auth/me', {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    }).then(res => {
+      if(res.statusText === "OK"){
+        this.setState({
+          userData: res.data,
+          isLoading: false,
+        })
+      }
+    }).catch(err => {
+      this.setState({
+        isLoading: false,
+      })
+    })
+  }
+  logOut = ()=> {
+    window.localStorage.clear();
+    window.location.pathname = "/"
+    // axios.post('https://stormy-eyrie-81072.herokuapp.com/api/auth/logout', {
+    //   headers: {
+    //     "Authorization": `Bearer ${this.state.token}`
+    //   }
+    // }).then(res => {
+    //   console.log(res, 'res');
+    //
+    // }).catch(err => {
+    //   console.log(err);
+    // })
+  }
   render() {
+    const {userData, isLoading} = this.state;
     return (
       <div>
         <Navbar color="light" light expand="md">
@@ -37,32 +76,22 @@ export default class Navbarx extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret style= {{ marginTop: 10,}}  >
-                  الكلية 
-                </DropdownToggle>
-                <DropdownMenu left >
-                  <DropdownItem>
-                    الهندسة
-                  </DropdownItem >
-                  <DropdownItem >
-                    الطب 
-                  </DropdownItem>
-                  <DropdownItem >
-                    الشريعة
-                  </DropdownItem>
-                  <DropdownItem divider/>
-                  <DropdownItem>
-                    Reset
-                  </DropdownItem>
-                </DropdownMenu>
               </UncontrolledDropdown>
-              <NavItem>
-               <NavLink ><Link to='/signup'><Button color="success" >تسجيل</Button> </Link></NavLink> 
-              </NavItem>
-              <NavItem>
-               <NavLink><Link to='/login'><Button color="success" >تسجيل دخول</Button> </Link></NavLink> 
-              </NavItem>
- 
+              {
+                isLoading ? <BarLoader sizeUnit={"px"} size={70} color={'#123abc'} loading={this.state.isLoading}/> :
+                !userData ?
+                <div>
+                  <NavItem>
+                   <NavLink ><Link to='/signup'><Button color="success" >تسجيل</Button> </Link></NavLink>
+                  </NavItem>
+                  <NavItem>
+                   <NavLink><Link to='/login'><Button color="success" >تسجيل دخول</Button> </Link></NavLink>
+                  </NavItem>
+                </div>:
+                <NavItem>
+                 <NavLink onClick={this.logOut}><Button color="success">تسجيل الخروج</Button></NavLink>
+                </NavItem>
+              }
             </Nav>
           </Collapse>
         </Navbar>

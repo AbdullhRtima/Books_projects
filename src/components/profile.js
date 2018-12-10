@@ -1,109 +1,230 @@
-import React, { Component } from 'react'
-import { Card ,InputGroup, InputGroupAddon, InputGroupText, Input , Container,
-  Row, Col,Button, Form, FormGroup, Label, FormText, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle  } from 'reactstrap';
-  
-  const books = [
-    {
-        id :"1",
-        name :" E 1 book",
-        case: "Give away",
-        description :"helllo iam ebook buy me or i will kill you !!" 
+import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
+import uuid from 'uuid'
+import {
+  CSSTransition,
+  TransitionGroup,
+} from 'react-transition-group';
+import {
+  Card,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  Input,
+  Container,
+  Row,
+  Col,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  FormText,
+  CardImg,
+  CardText,
+  CardBody,
+  CardTitle,
+  CardSubtitle,
+  ListGroup,
+  ListGroupItem
+} from 'reactstrap';
+import {getFromStorage} from '../helpers/storage.js';
+import axios from 'axios';
 
-    },
-    {
-        id :"2",
-        name :" E 2 book",
-        case: "contact user ",
-        description :"helllo iam ebook buy me or i will kill you !!" 
 
-    },
-    {
-        id :"3",
-        name :" E 3 book",
-        case: "for sell",
-        description :"helllo iam ebook buy me or i will kill you !!" 
-
-    },
-    {
-      id :"3",
-      name :" E 3 book",
-      case: "for sell",
-      description :"helllo iam ebook buy me or i will kill you !!" 
-
+export class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userImage: "",
+      userName: "",
+      email: "",
+      profile: "",
+      phone_num: "",
+      profileError: "",
+      userInfo: null,
+      userBooks: ["Data Sructure", "Internet Teconlogy"],
+      books: [
+        { id: uuid(),
+          img : '5.jpg',
+          name :'php',
+          type :'exchange',
+          category : 'ebook',
+           },
+        { id: uuid(),
+          img : '5.jpg',
+          name :'php',
+          type :'exchange',
+          category : 'ebook' },
+        { id: uuid(),
+          img : '5.jpg',
+          name :'php',
+          type :'exchange',
+          category : 'ebook' },
+        { id: uuid(),
+          img : '5.jpg',
+          name :'php',
+          type :'exchange',
+          category : 'ebook' },
+      ]
+    }
   }
-  
-]
 
-export class profile extends Component {
-  constructor(props){
-    super(props); 
-    this.state = [{
-      contact : {
-        userImage : "",
-        userName : "" ,
-        email : "",
-        profile:"",
-        phone_num: ""
+  componentDidMount() {
+    console.log('componentDidMount');
+    const token = getFromStorage('token');
+    this.setState({token})
+    console.log(token);
+    axios.get('https://stormy-eyrie-81072.herokuapp.com/api/auth/me', {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    }).then(res => {
+      this.setState({userInfo: res.data})
+      axios.get('https://stormy-eyrie-81072.herokuapp.com/api/books', {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      }).then(resp => {
+        console.log(resp, 'result2 is here');
+        // const result2 = JSON.parse(resp.data.substring(resp.data.indexOf('{'),resp.data.lastIndexOf(`}`)+1));
+        if (resp.data.status === "ok") {
+          this.setState({userBooks: resp.data.books})
+        }
+      }).catch(error => {
+        console.log(error, 'erro is here');
+        this.setState({profileError: "Can't get user books"})
+      })
+    }).catch(err => {
+      this.setState({profileError: err})
+    })
+  }
+  onChange = event => {
+    switch (event.target.name) {
+      case "BookName":
+        this.setState({bookName: event.target.value})
+        break;
+      case "BookType":
+        this.setState({bookType: event.target.value})
+        break;
+      case "BookCategory":
+        this.setState({bookCategory: event.target.value})
+        break;
+      default:
+        return null;
+    }
+  }
+  onSubmitNewBook = event => {
+    event.preventDefault();
+    const {bookName, bookType, bookCategory} = this.state
+    if (!bookName || !bookType || !bookCategory) {
+      this.setState({profileError: "أملأ جميع الحقول لإضافة كتاب"})
+    }
+    axios({
+      method: "POST",
+      url: "https://stormy-eyrie-81072.herokuapp.com/api/books/{id}",
+      headers: {
+        "Authorization": `Bearer ${this.state.token}`
       },
-      userBooks : ["Data Sructure", "Internet Teconlogy"]
-    }]
+      data: {
+        name: bookName,
+        type: bookType,
+        category: bookCategory
+      }
+    }).then(res => {
+      if(res.data.status === "ok"){
+        window.location.reload();
+      }
+    }).catch(err => {
+      this.setState({
+        profileError:"خطأ في اضافة الكتاب"
+      })
+    })
   }
   render() {
+    const {userInfo, userBooks,books} = this.state;
+    console.log(userInfo,'userInfo');
     let bookCards = books.map((book) =>{
       return (
          <Col sm="3" book={book} >
            <Card>
-            <CardImg src="book.jpg" alt="Card image cap" />
+            <CardImg src={book.img} alt="Card image" />
              <CardBody>
                  <CardTitle>{book.name} </CardTitle>
-                 <CardSubtitle>{book.case}</CardSubtitle>
-                 <CardText>{book.description}</CardText>
-                 <Button color="danger"> حدف</Button>  <Button color="secondary"> تعديل </Button>
-                
+                 <CardSubtitle>{book.type}</CardSubtitle>
+                 <CardText>{book.category}</CardText>
              </CardBody>
+             <Button
+                  color="danger "
+                    className="remove-btn"
+                    onClick={() => {
+                      this.setState(state => ({
+                        books: state.books.filter(
+                          item => item.id !== book.id
+                        ),
+                      }));
+                    }}
+                  >
+                    &times;
+                  </Button>
           </Card>
          </Col>
+
       )
- 
+
  })
-    console.log(this.state, ' this .')
     return (
-      <Container style={{ padding: '.5rem' , marginTop : 40 , textAlign :'center'  }}>
+    <Container style={{
+        padding: '.5rem',
+        marginTop: 40,
+        textAlign: 'center'
+      }}>
       <Row>
-      <Col xs='3'></Col>
-      <Col>
-      <div>
-       <img src="data:image/png;base64,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" alt="profile-   img"/>
-         <div className ="contact_me">
-         <h1 className ="user_name">kareem</h1>
-         <h3 className ="email">kareem@gmail.com</h3>
-         <h3 className =" facebook url " >www.facebook.com/kareem</h3>
-         <h3 className ="phone_num" >+972597731363</h3>
-       </div>
-       <div className ="user-books"> 
-        
-       </div>
-      </div>
-      </Col>
-      <Col xs='3'></Col>
+        <Col xs='3'></Col>
+        <Col>
+          {
+            userInfo
+              ? <div>
+                  <div className="contact_me">
+                    <h1 className="user_name">{userInfo.name}</h1>
+                    <h3 className="email">{userInfo.email}</h3>
+                  </div>
+                  <div className="user-books"></div>
+                </div>
+              : (null)
+          }
+        </Col>
+        <Col xs='3'></Col>
       </Row>
       <Row>
         <Col>
-        <div>
-    <Container>
-    <h1 style={{textAlign: "center"}}> اخر ما قمت باضافته   </h1>
-    <br/>
         <Row>
           {bookCards}
-        </Row> 
-        </Container>
-      </div>
+        </Row>
+
+      <Button
+          type="button"
+          onClick={() => {
+            const img = prompt('Enter img path');
+            const name = prompt('Enter book name');
+            const type = prompt('Enter book type');
+            const category = prompt('Enter book category');
+            if (img) {
+              this.setState(state => ({
+                books: [
+                  ...state.books,
+                  { id: uuid(), img ,name,category,type },
+                ],
+              }));
+            }
+          }}
+        >
+        اضافة كتاب لمعرضك
+        </Button>
         </Col>
-      </Row>
-      </Container>
-    )
+        </Row>
+
+    </Container>)
   }
 }
 
-export default profile
+export default Profile;
