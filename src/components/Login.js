@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import axios from 'axios';
 import Navbarx from './Navbar';
-
+import {Link} from 'react-router-dom';
 import {
   Card,
   InputGroup,
@@ -15,10 +15,12 @@ import {
   Form,
   FormGroup,
   Label,
-  FormText
+  FormText,
+  NavItem,
+  NavLink
 } from 'reactstrap';
 
-import {setInStorage} from '../helpers/storage.js';
+import {setInStorage, getFromStorage} from '../helpers/storage.js';
 
 export class Login extends Component {
   constructor(props) {
@@ -26,8 +28,28 @@ export class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      loginError: ""
+      loginError: "",
+      isLogged:false
     }
+  }
+  componentDidMount(){
+    const token = getFromStorage('token');
+    this.setState({token})
+    axios.get('https://stormy-eyrie-81072.herokuapp.com/api/auth/me', {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    }).then(res => {
+      if(res.statusText === "OK"){
+        this.setState({
+          isLogged:true,
+        })
+      }
+    }).catch(err => {
+      this.setState({
+        isLogged:false,
+      })
+    })
   }
   onChange = event => {
     switch (event.target.name) {
@@ -51,12 +73,7 @@ export class Login extends Component {
         }
     )
      .then(res => {
-       console.log(res, 'res');
        if(res.data.status === "ok"){
-         //** this is because the response.data comes up as a string!
-         //** it have to convert it as a json!*/
-          // const response = JSON.parse(res.data.substring(res.data.indexOf('{'),res.data.indexOf(`}`)+1));
-          // console.log(response);
           setInStorage("token", res.data.token);
           this.props.history.push('/profile');
        }
@@ -70,11 +87,12 @@ export class Login extends Component {
 
   render() {
     const {loginError} = this.state
+
     return (
       <div>
         <Navbarx/>
     <Container>
-              
+
       <Row>
         <Col xs='3'></Col>
         <Col>

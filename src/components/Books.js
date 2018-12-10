@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import {Link} from 'react-router-dom';
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Button, Container, Row, Col } from 'reactstrap';
+import {getFromStorage} from '../helpers/storage.js';
+import axios from 'axios';
 
 const books = [
     {
@@ -69,17 +71,37 @@ constructor(props){
 
     }
 }
+componentDidMount(){
+  const token = getFromStorage('token');
+  this.setState({token})
+  axios.get('https://stormy-eyrie-81072.herokuapp.com/api/books', {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  }).then(resp => {
+    if (resp.data.status === "ok") {
+      this.setState({userBooks: resp.data.books})
+    }
+  }).catch(error => {
+    this.setState({profileError: "Can't get user books"})
+  })
+}
 
 render() {
-let bookCards = books.map((book) =>{
+const {userBooks} = this.state;
+console.log(this.state, 'this.state');
+console.log(userBooks, 'userBooks');
+let bookCards = userBooks && userBooks.map((book) =>{
      return (
-        <Col sm="3" book={book} >
+        <Col sm="3">
           <Card>
-          <Link to='/books/details'> <CardImg src="book.jpg" alt="Card image cap" /> </Link>
+          <Link to={`/books/details/${book.id}`} >
+            <CardImg src="book.jpg" alt="Card image cap" />
+          </Link>
             <CardBody>
                 <CardTitle>{book.name} </CardTitle>
-                <CardSubtitle>{book.case}</CardSubtitle>
-                <CardText>{book.description}</CardText>
+                <CardSubtitle>{book.type}</CardSubtitle>
+                <CardText>{book.category}</CardText>
             </CardBody>
          </Card>
         </Col>

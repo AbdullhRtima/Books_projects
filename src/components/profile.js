@@ -25,39 +25,11 @@ import {
   CardTitle,
   CardSubtitle,
   ListGroup,
-  ListGroupItem 
+  ListGroupItem
 } from 'reactstrap';
 import {getFromStorage} from '../helpers/storage.js';
 import axios from 'axios';
 
-// const books = [
-//   {
-//     id: "1",
-//     name: " E 1 book",
-//     case: "Give away",
-//     description: "helllo iam ebook buy me or i will kill you !!"
-
-//   }, {
-//     id: "2",
-//     name: " E 2 book",
-//     case: "contact user ",
-//     description: "helllo iam ebook buy me or i will kill you !!"
-
-//   }, {
-//     id: "3",
-//     name: " E 3 book",
-//     case: "for sell",
-//     description: "helllo iam ebook buy me or i will kill you !!"
-
-//   }, {
-//     id: "3",
-//     name: " E 3 book",
-//     case: "for sell",
-//     description: "helllo iam ebook buy me or i will kill you !!"
-
-//   }
-
-// ]
 
 export class Profile extends Component {
   constructor(props) {
@@ -72,23 +44,23 @@ export class Profile extends Component {
       userInfo: null,
       userBooks: ["Data Sructure", "Internet Teconlogy"],
       books: [
-        { id: uuid(), 
+        { id: uuid(),
           img : '5.jpg',
           name :'php',
           type :'exchange',
           category : 'ebook',
            },
-        { id: uuid(), 
+        { id: uuid(),
           img : '5.jpg',
           name :'php',
           type :'exchange',
           category : 'ebook' },
-        { id: uuid(), 
+        { id: uuid(),
           img : '5.jpg',
           name :'php',
           type :'exchange',
           category : 'ebook' },
-        { id: uuid(), 
+        { id: uuid(),
           img : '5.jpg',
           name :'php',
           type :'exchange',
@@ -107,7 +79,6 @@ export class Profile extends Component {
         "Authorization": `Bearer ${token}`
       }
     }).then(res => {
-      console.log(res.data, 'res.data');
       this.setState({userInfo: res.data})
       axios.get('https://stormy-eyrie-81072.herokuapp.com/api/books', {
         headers: {
@@ -171,11 +142,12 @@ export class Profile extends Component {
   }
   render() {
     const {userInfo, userBooks,books} = this.state;
+    console.log(userInfo,'userInfo');
     let bookCards = books.map((book) =>{
       return (
          <Col sm="3" book={book} >
            <Card>
-            <CardImg src={book.img} alt="Card image" /> 
+            <CardImg src={book.img} alt="Card image" />
              <CardBody>
                  <CardTitle>{book.name} </CardTitle>
                  <CardSubtitle>{book.type}</CardSubtitle>
@@ -196,9 +168,9 @@ export class Profile extends Component {
                   </Button>
           </Card>
          </Col>
-         
+
       )
- 
+
  })
     return (
     <Container style={{
@@ -228,7 +200,7 @@ export class Profile extends Component {
         <Row>
           {bookCards}
         </Row>
-      
+
       <Button
           type="button"
           onClick={() => {
@@ -246,11 +218,11 @@ export class Profile extends Component {
             }
           }}
         >
-        اضافة كتاب لمعرضك 
+        اضافة كتاب لمعرضك
         </Button>
         </Col>
         </Row>
-     
+
     </Container>)
   }
 }

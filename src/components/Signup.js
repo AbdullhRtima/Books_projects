@@ -3,6 +3,7 @@ import { Card ,InputGroup, InputGroupAddon, InputGroupText, Input , Container,
    Row, Col,Button, Form, FormGroup, Label, FormText } from 'reactstrap';
 import axios from 'axios';
 import Navbarx from './Navbar';
+import {getFromStorage} from '../helpers/storage.js';
 
 export class Signup extends Component {
   constructor(props){
@@ -15,6 +16,13 @@ export class Signup extends Component {
       whoyouare:"",
       image:{},
       registerError:""
+    }
+  }
+  componentDidMount(){
+    const token = getFromStorage('token');
+    this.setState({token})
+    if(token){
+      window.location.pathname = "/profile"
     }
   }
   onChange = event =>{
@@ -95,7 +103,7 @@ export class Signup extends Component {
     return (
       <div>
       <Navbarx/>
-    
+
       <Container style={{ padding: '.5rem' , marginTop : 40 , textAlign :'right'  }}>
       <Row xs='4'>
       <Col xs='3'></Col>
