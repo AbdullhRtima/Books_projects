@@ -72,7 +72,6 @@ export class Signup extends Component {
   }
   onSubmit = event => {
     event.preventDefault();
-    console.log('i am inisde on submit register');
     if(this.state.password !== this.state.confirmPassword){
       return this.setState({
         registerError:"Sorry, Passwords are not matched!!"
@@ -85,21 +84,17 @@ export class Signup extends Component {
      }
     )
     .then(res => {
-      console.log(res);
-      console.log(res.status);
       if(res.status === 201){
         this.props.history.push('/login')
       }
     })
     .catch(err => {
-      console.log('err', err);
       this.setState({
           registerError :"err comes up!",
         })
     })
   }
   render() {
-    console.log(this.state);
     return (
       <div>
       <Navbarx/>

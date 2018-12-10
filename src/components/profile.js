@@ -70,10 +70,8 @@ export class Profile extends Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount');
     const token = getFromStorage('token');
     this.setState({token})
-    console.log(token);
     axios.get('https://stormy-eyrie-81072.herokuapp.com/api/auth/me', {
       headers: {
         "Authorization": `Bearer ${token}`
@@ -85,13 +83,10 @@ export class Profile extends Component {
           "Authorization": `Bearer ${token}`
         }
       }).then(resp => {
-        console.log(resp, 'result2 is here');
-        // const result2 = JSON.parse(resp.data.substring(resp.data.indexOf('{'),resp.data.lastIndexOf(`}`)+1));
         if (resp.data.status === "ok") {
           this.setState({userBooks: resp.data.books})
         }
       }).catch(error => {
-        console.log(error, 'erro is here');
         this.setState({profileError: "Can't get user books"})
       })
     }).catch(err => {
@@ -142,7 +137,6 @@ export class Profile extends Component {
   }
   render() {
     const {userInfo, userBooks,books} = this.state;
-    console.log(userInfo,'userInfo');
     let bookCards = books.map((book) =>{
       return (
          <Col sm="3" book={book} >

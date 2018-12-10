@@ -31,7 +31,7 @@ class Recovery extends React.Component{
     return (
       <div>
       <Navbarx/>
-     
+
       <Container>
        <Row >
        <Col>
@@ -40,13 +40,12 @@ class Recovery extends React.Component{
           <Label for="exampleEmail" className="arabictxt">أدخل ايميلك المسجل هنا</Label>
           <Input onChange={this.onChange} type="email" name="name" placeholder="something@host.com "
           onChange={(event) => {
-            console.log(event.target.value, 'event.target.value');
             this.setState({
               email: event.target.value
             })
           }} required/>
         </FormGroup>
-       
+
         <Button type='submit' > اعادة تعين لكمة مرور </Button>
         {
           this.state.message ?

@@ -89,8 +89,6 @@ componentDidMount(){
 
 render() {
 const {userBooks} = this.state;
-console.log(this.state, 'this.state');
-console.log(userBooks, 'userBooks');
 let bookCards = userBooks && userBooks.map((book) =>{
      return (
         <Col sm="3">

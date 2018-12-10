@@ -25,16 +25,27 @@ export class BookDetails extends Component {
         return res.data.book;
       }
     }).then(book => {
-      this.setState({bookData: book,
-      isLoading:false})
+      this.setState({bookData: book})
+      console.log(book, 'book');
+      const {owner_id} = book;
+      axios.get('https://stormy-eyrie-81072.herokuapp.com/api/contact/'+owner_id).then(res => {
+        if (res.statusText === "OK") {
+          console.log(res);
+          this.setState({
+            ownerInfo:res.data.book,
+            isLoading:false
+          })
+        }
+      })
+
     }).catch(error => {
       this.setState({profileError: "Can't get user books",
     isLoading:false})
     })
+
   }
   render() {
     const {bookData, ownerInfo, isLoading} = this.state;
-    console.log(bookData,'bookData');
       return (<div>
         <Navbarx/>
         <Container style={{
@@ -75,21 +86,20 @@ export class BookDetails extends Component {
            </Row>
           }
           {
-            ownerInfo &&
+            ownerInfo ?
             <div>
               <h1>معلومات المالك</h1>
               <div>
-                <h2>صاحب الكتاب</h2>
-                <h3>{ownerInfo.name}</h3>
-              </div>
-              <div>
-                <h2>الايميل</h2>
-                <h3>{ownerInfo.email}</h3>
+                <h2>حساب الفيسبوك</h2>
+                <h3>{ownerInfo.facebook_url}</h3>
               </div>
               <div>
                 <h2>رقم الهاتف</h2>
-                <h3>{ownerInfo.phone_num}</h3>
+                <h3>{ownerInfo.phone_number}</h3>
               </div>
+            </div>
+            :<div>
+              ليس هناك معلومات متوفرة عن مالك هذا الكتاب
             </div>
           }
         </Container>
