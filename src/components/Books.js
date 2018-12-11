@@ -92,20 +92,20 @@ const {userBooks} = this.state;
 let bookCards = userBooks && userBooks.map((book) =>{
      return (
         <Col sm="3">
-          <Card>
+          
           <Link to={`/books/details/${book.id}`} >
-            <CardImg src="book.jpg" alt="Card image cap" />
+            <img className="bookimg" src="book.jpg" alt="Card image cap" />
           </Link>
             <CardBody>
                 <CardTitle>{book.name} </CardTitle>
                 <CardSubtitle>{book.type}</CardSubtitle>
                 <CardText>{book.category}</CardText>
             </CardBody>
-         </Card>
+         
         </Col>
      )
 
-})
+}) 
 return (
  <div>
     <Container>

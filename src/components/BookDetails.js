@@ -62,7 +62,7 @@ export class BookDetails extends Component {
             bookData &&
             <Row sm='6'>
              <Col>
-               <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=381" alt="Card image cap"/>
+               <img className="bookimg" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=381" alt="Card image cap"/>
              </Col>
              <Col style={{
                  textAlign: 'right'

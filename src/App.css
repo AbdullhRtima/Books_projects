@@ -9,6 +9,10 @@ footer span {
 
 }
 
+#CardImg{
+  max-width: 50%;
+  height: auto;
+}
 
 .form-recovery{
   display: flex;
@@ -19,7 +23,18 @@ footer span {
   text-align: center;
 }
 
-
+.bookimg{
+  border: solid rgb(0, 0, 0) 1px;
+  margin: 10px 20px;
+  padding: 2px;
+  border-radius: 10%;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+ 
+}
+.bookimg:hover {
+  border-radius: 50%;
+}
 .remove-btn {
   margin-right: 0.5rem;
 }

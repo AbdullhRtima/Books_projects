@@ -69,33 +69,63 @@ export default class Navbarx extends React.Component {
   render() {
     const {userData, isLoading} = this.state;
     return (
-      <div>
-        <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">كتابي</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-          <Nav className="ml-auto" navbar>
-            <UncontrolledDropdown nav inNavbar>
-              </UncontrolledDropdown>
-              {
+      <div className="test">
+      <Navbar  color="light" light expand="md">
+        <NavbarBrand href="/">BookBooking</NavbarBrand>
+        
+        <NavbarToggler onClick={this.toggle} />
+        <Collapse isOpen={this.state.isOpen} navbar>
+        
+            {
                 isLoading ? <BarLoader sizeUnit={"px"} size={70} color={'#123abc'} loading={this.state.isLoading}/> :
                 !userData ?
-                <div>
-                  <NavItem>
+                <div className="navbar">
+                  <Nav  navbar>
+                  <NavItem >
                    <NavLink ><Link to='/signup'><Button color="success" >تسجيل</Button> </Link></NavLink>
                   </NavItem>
                   <NavItem>
                    <NavLink><Link to='/login'><Button color="success" >تسجيل دخول</Button> </Link></NavLink>
                   </NavItem>
+                  </Nav>
                 </div>:
                 <NavItem>
                  <NavLink onClick={this.logOut}><Button color="success">تسجيل الخروج</Button></NavLink>
                 </NavItem>
+                
               }
-            </Nav>
-          </Collapse>
-        </Navbar>
+             
+        </Collapse>
+      </Navbar>
       </div>
+      // <div>
+      //   <Navbar color="light" light expand="md">
+      //     <NavbarBrand href="/">BookBooking</NavbarBrand>
+      //     <NavbarToggler onClick={this.toggle} />
+      //     <Collapse isOpen={this.state.isOpen} navbar>
+      //     <Nav className="ml-auto" navbar>
+      //       <UncontrolledDropdown nav inNavbar>
+      //         </UncontrolledDropdown>
+      //         {
+      //           isLoading ? <BarLoader sizeUnit={"px"} size={70} color={'#123abc'} loading={this.state.isLoading}/> :
+      //           !userData ?
+      //           <div>
+      //             <NavItem>
+      //              <NavLink ><Link to='/signup'><Button color="success" >تسجيل</Button> </Link></NavLink>
+      //             </NavItem>
+      //             <NavItem>
+      //              <NavLink><Link to='/login'><Button color="success" >تسجيل دخول</Button> </Link></NavLink>
+      //             </NavItem>
+      //           </div>:
+      //           <NavItem>
+      //            <NavLink onClick={this.logOut}><Button color="success">تسجيل الخروج</Button></NavLink>
+      //           </NavItem>
+      //         }
+      //       </Nav>
+      //     </Collapse>
+      //   </Navbar>
+      // </div>
+      
     );
   }
 }

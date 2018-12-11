@@ -14,7 +14,7 @@ export function getFromStorage(key) {
 }
 
 export function setInStorage(key, obj) {
-  console.log('heee, there was an error in setInStorage');
+  console.log('oops, there was an error in setInStorage');
   if (!key) {
     console.error('Error: Key is missing');
   }
