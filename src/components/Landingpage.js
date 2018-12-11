@@ -15,7 +15,7 @@ export class Landingpage extends Component {
 
   render() {
     return (
-      <div>
+      <div className="main">
         <Navbar/>
         <Slider/>
         <br/>

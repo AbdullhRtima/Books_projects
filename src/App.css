@@ -13,7 +13,9 @@ footer span {
   max-width: 50%;
   height: auto;
 }
-
+.main{
+background-image: url('https://bookabikia.com/images/bg.gif')
+}
 .form-recovery{
   display: flex;
   justify-content: center;
