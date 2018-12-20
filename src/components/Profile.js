@@ -19,12 +19,19 @@ import {
   CardTitle,
   CardSubtitle,
   NavItem,
-  NavLink
+  NavLink,
+  Alert
 } from 'reactstrap';
 import {getFromStorage} from '../helpers/storage.js';
+import {
+  CSSTransition,
+  TransitionGroup,
+} from 'react-transition-group';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import {RingLoader} from 'react-spinners';
+import Navbar from './Navbar'
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 export class Profile extends Component {
   constructor(props) {
@@ -41,6 +48,9 @@ export class Profile extends Component {
       userInfo: null,
       isLogged: false,
       isLoading: true,
+      showSuccessPopup:false,
+      showEdit:false,
+      alertMessage:"",
       userBooks: ["Data Sructure", "Internet Teconlogy"]
     }
   }
@@ -54,13 +64,15 @@ export class Profile extends Component {
       }
     }).then(res => {
       this.setState({userInfo: res.data, isLogged: true})
-      axios.get('https://stormy-eyrie-81072.herokuapp.com/api/books', {
+      axios.get('https://stormy-eyrie-81072.herokuapp.com/api/mybooks', {
         headers: {
           "Authorization": `Bearer ${token}`
         }
       }).then(resp => {
         if (resp.data.status === "ok") {
-          this.setState({userBooks: resp.data.books})
+          this.setState({
+            userBooks: resp.data.books
+          })
         }
         axios.get('https://stormy-eyrie-81072.herokuapp.com/api/contact', {
           headers: {
@@ -68,6 +80,7 @@ export class Profile extends Component {
           }
         }).then(result => {
           if (result.statusText === "OK") {
+            console.log(result.data.contact, 'result.data.contact');
             this.setState({
               contactInfo: result.data.contact,
               isLoading:false,
@@ -80,7 +93,7 @@ export class Profile extends Component {
         this.setState({profileError: "Can't get user books"})
       })
     }).catch(err => {
-      this.setState({profileError: err})
+      this.setState({profileError: err,isLoading:false})
     })
   }
   onChange = event => {
@@ -88,11 +101,14 @@ export class Profile extends Component {
       case "BookName":
         this.setState({bookName: event.target.value})
         break;
-      case "BookType":
-        this.setState({bookType: event.target.value})
+      case "BookStatus":
+        this.setState({bookStatus: event.target.value})
         break;
       case "BookCategory":
         this.setState({bookCategory: event.target.value})
+        break;
+      case "BookDesc":
+        this.setState({bookDesc: event.target.value})
         break;
       case "facebookURL":
         this.setState({facebookURL: event.target.value})
@@ -106,8 +122,8 @@ export class Profile extends Component {
   }
   onSubmitNewBook = event => {
     event.preventDefault();
-    const {bookName, bookType, bookCategory} = this.state
-    if (!bookName || !bookType || !bookCategory) {
+    const {bookName, bookStatus, bookCategory, bookDesc} = this.state
+    if (!bookName || !bookStatus || !bookCategory || !bookDesc) {
       this.setState({profileError: "أملأ جميع الحقول لإضافة كتاب"})
     }
     axios({
@@ -118,8 +134,9 @@ export class Profile extends Component {
       },
       data: {
         name: bookName,
-        type: bookType,
-        category: bookCategory
+        status: bookStatus,
+        category: bookCategory,
+        description:bookDesc
       }
     }).then(res => {
       if (res.data.status === "ok") {
@@ -132,22 +149,27 @@ export class Profile extends Component {
   onSubmitContactInfo = (event) => {
     event.preventDefault();
     const {facebookURL, phoneNum} = this.state;
-    if (!facebookURL || !phoneNum) {
-      this.setState({profileError: "أملأ جميع الحقول لإضافة كتاب"})
+    if (!facebookURL || !phoneNum || !facebookURL.includes("facebook") || phoneNum.length !== 10 || isNaN(phoneNum)) {
+      this.setState({showSuccessPopup:false,contectErorr: "عذراً , إملا الحقول بشكل صحيح"})
+      return ;
     }
     axios({
       method: "POST",
-      url: "https://stormy-eyrie-81072.herokuapp.com/api/books",
+      url: "https://stormy-eyrie-81072.herokuapp.com/api/contact",
       headers: {
         "Authorization": `Bearer ${this.state.token}`
       },
       data: {
         facebook_url: facebookURL,
-        phone_num: phoneNum
+        phone_number: phoneNum
       }
     }).then(res => {
       if (res.data.status === "ok") {
-        window.location.reload();
+        this.setState({
+          showSuccessPopup:true,
+          alertMessage:"تم اضافة المعلومات بنجاح",
+        })
+        // window.location.reload();
       }
     }).catch(err => {
       this.setState({contectErorr: "خطأ في اضافة المعلومات"})
@@ -157,44 +179,99 @@ export class Profile extends Component {
     window.location.pathname = "/"
   }
 
+  handleDeleteBook = bookId => {
+    axios({
+      method: "DELETE",
+      url: "https://stormy-eyrie-81072.herokuapp.com/api/books/"+bookId,
+      headers: {
+        "Authorization": `Bearer ${this.state.token}`
+      }
+    }).then(res => {
+      if (res.data.status === "ok") {
+        // filter the books
+        this.setState(state => ({
+          userBooks: state.userBooks.filter(
+            item => item.id !== bookId
+          ),
+          showSuccessPopup:true,
+          alertMessage:"تم حذف المشروع بنجاح"
+        }));
+      }
+    }).catch(err => {
+      this.setState({
+        contectErorr: "خطأ في اضافة المعلومات"})
+    })
+  }
+
+  showEditPopup = bookId => {
+    const {userBooks} = this.state;
+    this.setState({
+      bookIdToEdit:bookId,
+      showEdit:true,
+      bookDataToEdit: userBooks.filter(book =>{ return book.id === bookId })
+    })
+  }
+
+  onSubmitEditBook = event => {
+    const {bookName, bookStatus, bookCategory, bookDesc, bookIdToEdit, token, bookDataToEdit} = this.state;
+    const newData = {
+      name: bookName || bookDataToEdit[0].name,
+      status:bookStatus || bookDataToEdit[0].status,
+      category:bookCategory || bookDataToEdit[0].category,
+      description:bookDesc || bookDataToEdit[0].description
+    }
+    axios({
+      method:"PUT",
+      url: "https://stormy-eyrie-81072.herokuapp.com/api/books/"+bookIdToEdit,
+      headers: {
+        "Authorization": `Bearer ${token}`
+      },
+      data:newData
+    }).then(res => {
+      if (res.data.status === "ok") {
+        window.location.reload();
+      }
+    }).catch(err => {
+      this.setState({
+        editError:"خطأ في تعديل المعلومات للكتاب!"
+      })
+    })
+  }
+
   render() {
-    const {userInfo, userBooks, contactInfo, isLogged, isLoading} = this.state;
+    const {userInfo, userBooks, contactInfo, isLogged, isLoading, profileError , contectErorr} = this.state;
+    console.log(this.state, 'state is here');
     return (
       isLoading
-      ? <div>
+      ? <div className='div-loader'>
         <RingLoader sizeUnit={"px"} size={70} color={'#123abc'} loading={this.state.isLoading}/>
         <h2>Loading ....</h2>
       </div>
       : !isLogged
         ? <div>
           It seems you are not login, plase login on register below.
-          <div>
-            <NavItem>
-              <NavLink >
-                <Link to='/signup'>
-                  <Button color="success">تسجيل</Button>
-                </Link>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink>
-                <Link to='/login'>
-                  <Button color="success">تسجيل دخول</Button>
-                </Link>
-              </NavLink>
-            </NavItem>
-          </div>
+            <div>
+              <NavItem>
+                <NavLink >
+                  <Link to='/signup'>
+                    <Button color="success">تسجيل</Button>
+                  </Link>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink>
+                  <Link to='/login'>
+                    <Button color="success">تسجيل دخول</Button>
+                  </Link>
+                </NavLink>
+              </NavItem>
+            </div>
         </div>
         : <Container style={{
-            padding: '.5rem',
-            marginTop: 40,
             textAlign: 'center'
           }}>
-          <button onClick={this.returnHomePage}>
-            الرجوع للصفحة الرئيسية
-          </button>
+          <Navbar/>
           <Row>
-            <Col xs='3'></Col>
             <Col>
               {
                 userInfo
@@ -210,36 +287,49 @@ export class Profile extends Component {
                   : (null)
               }
             </Col>
-            <Col xs='3'></Col>
           </Row>
           <Row>
             <Col>
               <div>
                 {
                   userBooks
-                    ? userBooks.map((book) => <Col sm="3">
+                    ? userBooks.map((book) =>
+                    <Row>
+                    <Col xs='3'></Col>
+                    <Col>
                       <Card>
-                        <CardImg src="book.jpg" alt="Card image cap"/>
+                        <CardImg src="5.jpg" alt="Card image cap"/>
                         <CardBody>
                           <CardTitle>{book.name}
                           </CardTitle>
                           <CardSubtitle>{book.case}</CardSubtitle>
                           <CardText>{book.description}</CardText>
-                          <Button color="danger">
-                            حدف</Button>
-                          <Button color="secondary">
-                            تعديل
-                          </Button>
+                          <Button
+                               color="danger "
+                                 className="remove-btn"
+                                 onClick={() => {
+                                   this.handleDeleteBook(book.id)
+                                 }}
+                               >
+                                 &times;
+                         </Button>
 
+                          <Button onClick={
+                            () => {
+                              this.showEditPopup(book.id)
+                            }}
+                            color="secondary">تعديل</Button>
                         </CardBody>
                       </Card>
-                    </Col>)
+                    </Col>
+                    <Col xs='3'></Col>
+                    </Row>)
                     : <div>
                         لم تقم بإضافة أي كتاب حتي الان
                       </div>
                 }
-                {
-                  !contactInfo && <Form onSubmit={this.onSubmitContactInfo}>
+
+                  <Form onSubmit={this.onSubmitContactInfo}>
                       <h1>اضف معلوماتك للتواصل معك</h1>
                       <FormGroup>
                         <Label for="facebookURL">حساب الفيسبوك</Label>
@@ -250,29 +340,88 @@ export class Profile extends Component {
                         <Input onChange={this.onChange} type="text" name="phoneNum" placeholder="أدخل هنا رقم جوالك"/>
                       </FormGroup>
                       <Button type="submit">تأكيد الاضافة</Button>
+                      {contectErorr ? <Alert color="danger">{contectErorr}</Alert>:(null)}
                     </Form>
-                }
                 <Form onSubmit={this.onSubmitNewBook} className="login">
                   <h1>
                     اضافة كتاب
                   </h1>
                   <FormGroup>
-                    <Label for="BookName">إسم الكتاب</Label>
+                    <Label for="BookName"></Label>
                     <Input onChange={this.onChange} type="text" name="BookName" placeholder="أدخل هنا اسم الكتاب"/>
                   </FormGroup>
                   <FormGroup>
-                    <Label for="BookType"></Label>
-                    <Input onChange={this.onChange} type="text" name="BookType" placeholder="ادخل هنا النوع الذي يتعلق به الكتاب مثال: نسخة حقيقة او نسخة الكترونية"/>
+                    <Label for="BookCategory"></Label>
+                    <Input onChange={this.onChange} type="text" name="BookCategory" placeholder="أدخل هنا القسم الذي يتعلق فيه الكتاب"/>
                   </FormGroup>
                   <FormGroup>
-                    <Label for="BookCategory"></Label>
-                    <Input onChange={this.onChange} type="textarea" name="BookCategory" placeholder="أدخل هنا القسم الذي يتعلق فيه الكتاب"/>
+                    <Label for="BookStatus"></Label>
+                    <Input onChange={this.onChange} type="text" name="BookStatus" placeholder="أدخل هنا حالة الكتاب: مثلاً للبيع او للتبديل او مجاناً"/>
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="BookDesc"></Label>
+                    <Input onChange={this.onChange} type="textarea" name="BookDesc" placeholder="أدخل هنا وصف الكتاب, مثال علي ذلك : نسخة الكتاب"/>
                   </FormGroup>
                   <Button type='submit'>تأكيد الإضافة</Button>
                 </Form>
+                {
+                  profileError ?
+                  <Alert color="danger">{profileError}</Alert>
+                  :(null)
+                }
               </div>
             </Col>
           </Row>
+          <SweetAlert success={this.state.showSuccessPopup} title={this.state.alertMessage} show={this.state.showSuccessPopup} onConfirm={() => {
+            this.setState({
+              showSuccessPopup:false
+            })
+          }}>
+            .تم حذف الكتاب بنجاح
+          </SweetAlert>
+          <SweetAlert
+            custom
+            showCancel
+            confirmBtnText="تعديل"
+            cancelBtnText="الغاء"
+            confirmBtnBsStyle="primary"
+            cancelBtnBsStyle="default"
+            title="تعديل معلومات الكتاب?"
+            onConfirm={this.onSubmitEditBook}
+            show={this.state.showEdit}
+            onCancel={() => {
+              this.setState({
+                showEdit:false
+              })
+            }}
+
+            >
+            {
+              this.state.bookDataToEdit && <Form onSubmit={this.onSubmitEditBook}>
+                <FormGroup>
+                  <Label for="BookName"></Label>
+                  <Input defaultValue={this.state.bookDataToEdit[0].name} onChange={this.onChange} type="text" name="BookName" placeholder="أدخل هنا اسم الكتاب"/>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="BookCategory"></Label>
+                  <Input defaultValue={this.state.bookDataToEdit[0].category} onChange={this.onChange} type="text" name="BookCategory" placeholder="أدخل هنا القسم الذي يتعلق فيه الكتاب"/>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="BookStatus"></Label>
+                  <Input defaultValue={this.state.bookDataToEdit[0].status} onChange={this.onChange} type="text" name="BookStatus" placeholder="أدخل هنا حالة الكتاب: مثلاً للبيع او للتبديل او مجاناً"/>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="BookDesc"></Label>
+                  <Input defaultValue={this.state.bookDataToEdit[0].description} onChange={this.onChange} type="textarea" name="BookDesc" placeholder="أدخل هنا وصف الكتاب, مثال علي ذلك : نسخة الكتاب"/>
+                </FormGroup>
+                {
+                  this.state.editError ?
+                  <Alert color="danger">{this.state.editError}</Alert>
+                  :(null)
+                }
+              </Form>
+            }
+          </SweetAlert>
         </Container>)
   }
 }
