@@ -67,20 +67,19 @@ export class BookDetails extends Component {
              <Col style={{
                  textAlign: 'right'
                }}>
-               <h1>
-                 تصنيف الكتاب : تبديل
-               </h1>
+               <h1>حالة الكتاب : {bookData.status}</h1>
+
                <div>
                  <h2>: اسم الكتاب</h2>
                  <h3>{bookData.name}</h3>
                </div>
                <div>
-                 <h2>: نوع الكتاب</h2>
-                 <h3>{bookData.type}</h3>
-               </div>
-               <div>
                  <h2>: القسم الذي ينتمي اليه الكتاب</h2>
                  <h3>{bookData.category}</h3>
+               </div>
+               <div>
+                <h2>وصف الكتاب</h2>
+                 <p>{bookData.description}</p>
                </div>
              </Col>
            </Row>

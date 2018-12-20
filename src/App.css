@@ -32,7 +32,7 @@ background-image: url('https://bookabikia.com/images/bg.gif')
   border-radius: 10%;
   -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
- 
+
 }
 .bookimg:hover {
   border-radius: 50%;
@@ -54,3 +54,13 @@ background-image: url('https://bookabikia.com/images/bg.gif')
     opacity: 0.01;
     transition: opacity 500ms ease-in;
   }
+
+.div-loader{
+  position: absolute;
+  top: 41%;
+  left: 43%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
