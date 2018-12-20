@@ -110,6 +110,12 @@ export class Profile extends Component {
     if (!bookName || !bookType || !bookCategory) {
       this.setState({profileError: "أملأ جميع الحقول لإضافة كتاب"})
     }
+    console.log("data": {
+      "name": bookName,
+      "type": bookType,
+      "category": bookCategory
+    });
+    console.log("bookName: ",bookName , "bookType", bookType, "bookCategory", bookCategory);
     axios({
       method: "POST",
       url: "https://stormy-eyrie-81072.herokuapp.com/api/books",
@@ -122,6 +128,7 @@ export class Profile extends Component {
         category: bookCategory
       }
     }).then(res => {
+      console.log();
       if (res.data.status === "ok") {
         window.location.reload();
       }
@@ -157,11 +164,32 @@ export class Profile extends Component {
     window.location.pathname = "/"
   }
 
+  handleDeleteBook = bookId => {
+    console.log(bookId,'bookId');
+    axios({
+      method: "DELETE",
+      url: "https://stormy-eyrie-81072.herokuapp.com/api/books/"+bookId,
+      headers: {
+        "Authorization": `Bearer ${this.state.token}`
+      }
+    }).then(res => {
+      if (res.data.status === "ok") {
+        // delete the books
+
+        this.setState({
+
+        })
+      }
+    }).catch(err => {
+      this.setState({contectErorr: "خطأ في اضافة المعلومات"})
+    })
+  }
+
   render() {
-    const {userInfo, userBooks, contactInfo, isLogged, isLoading} = this.state;
+    const {userInfo, userBooks, contactInfo, isLogged, isLoading, profileError , contectErorr} = this.state;
     return (
       isLoading
-      ? <div>
+      ? <div className='div-loader'>
         <RingLoader sizeUnit={"px"} size={70} color={'#123abc'} loading={this.state.isLoading}/>
         <h2>Loading ....</h2>
       </div>
@@ -225,12 +253,10 @@ export class Profile extends Component {
                           </CardTitle>
                           <CardSubtitle>{book.case}</CardSubtitle>
                           <CardText>{book.description}</CardText>
-                          <Button color="danger">
-                            حدف</Button>
-                          <Button color="secondary">
-                            تعديل
-                          </Button>
-
+                          <Button onClick={() => {
+                            this.handleDeleteBook(book.id)
+                          }} color="danger">حذف</Button>
+                          <Button onClick={this.handleEditBook} color="secondary">تعديل</Button>
                         </CardBody>
                       </Card>
                     </Col>)
@@ -250,6 +276,7 @@ export class Profile extends Component {
                         <Input onChange={this.onChange} type="text" name="phoneNum" placeholder="أدخل هنا رقم جوالك"/>
                       </FormGroup>
                       <Button type="submit">تأكيد الاضافة</Button>
+                      {contectErorr ? <div className='err-msg'>{contectErorr}</div> : (null)}
                     </Form>
                 }
                 <Form onSubmit={this.onSubmitNewBook} className="login">
@@ -270,9 +297,15 @@ export class Profile extends Component {
                   </FormGroup>
                   <Button type='submit'>تأكيد الإضافة</Button>
                 </Form>
+                {
+                  profileError ?
+                  <div className='err-msg'>{profileError}</div>
+                  :(null)
+                }
               </div>
             </Col>
           </Row>
+
         </Container>)
   }
 }
