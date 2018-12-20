@@ -67,40 +67,48 @@ export class BookDetails extends Component {
              <Col style={{
                  textAlign: 'right'
                }}>
-               <h1>حالة الكتاب : {bookData.status}</h1>
+               <h2>:حالة الكتاب </h2> <h3>{bookData.status}</h3>
 
+             
                <div>
-                 <h2>: اسم الكتاب</h2>
-                 <h3>{bookData.name}</h3>
+                 <h2>: اسم الكتاب</h2><h3>{bookData.name}</h3>
+                 
                </div>
                <div>
-                 <h2>: القسم الذي ينتمي اليه الكتاب</h2>
-                 <h3>{bookData.category}</h3>
+                 <h2>: القسم الذي ينتمي اليه الكتاب</h2> <h3>{bookData.category}</h3>
+                
                </div>
                <div>
-                <h2>وصف الكتاب</h2>
-                 <p>{bookData.description}</p>
+                <h2>وصف الكتاب</h2> <p>{bookData.description}</p>
+                
                </div>
              </Col>
            </Row>
           }
+          <div className="contact">
+          <Col style={{
+                 textAlign: 'right'
+               }}>
           {
             ownerInfo ?
             <div>
               <h1>معلومات المالك</h1>
               <div>
                 <h2>حساب الفيسبوك</h2>
-                <h3>{ownerInfo.facebook_url}</h3>
+                <h2>{ownerInfo.facebook_url}</h2>
               </div>
               <div>
                 <h2>رقم الهاتف</h2>
-                <h3>{ownerInfo.phone_number}</h3>
+                <h2>{ownerInfo.phone_number}</h2>
               </div>
             </div>
             :<div>
-              ليس هناك معلومات متوفرة عن مالك هذا الكتاب
+              <h2> ليس هناك معلومات متوفرة عن مالك هذا الكتاب </h2>
+             
             </div>
           }
+          </Col>
+          </div>
         </Container>
       </div>)
     }

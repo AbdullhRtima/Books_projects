@@ -4,7 +4,7 @@ import { Landingpage } from './Landingpage';
 import {Switch , Route} from 'react-router-dom';
 import { BookDetails } from './BookDetails';
 import {Login} from './Login' ;
-import Profile from './Profile'
+import Profile from './profile'
 import Recovery from './Recovery'
 
 const  Main = () => (

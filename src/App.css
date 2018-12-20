@@ -1,3 +1,9 @@
+body {
+  background: rgba(0, 0, 0, 0.9);
+  margin: 0;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 .card{
     margin-bottom: 20px ;
 };
@@ -63,4 +69,17 @@ background-image: url('https://bookabikia.com/images/bg.gif')
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+.footer{
+  background-color: black;
+}
+.footer Container {
+ background-color: #fff;
+}
+.color{
+  color:  #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+NavbarBrand{
+  font-family: "Times New Roman", Times, serif;
 }

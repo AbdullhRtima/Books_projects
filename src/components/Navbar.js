@@ -70,7 +70,7 @@ export default class Navbarx extends React.Component {
     const {userData, isLoading} = this.state;
     return (
       <div className="test">
-      <Navbar  color="light" light expand="md">
+      <Navbar  color="dark"  expand="md">
         <NavbarBrand href="/">BookBooking</NavbarBrand>
         
         <NavbarToggler onClick={this.toggle} />
