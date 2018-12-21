@@ -16,6 +16,7 @@ import {
 import {setInStorage, getFromStorage} from '../helpers/storage.js';
 import axios from 'axios';
 import {BarLoader} from 'react-spinners';
+import apiUrl from "../config.js"
 
 export default class Navbarx extends React.Component {
   constructor(props) {
@@ -35,7 +36,7 @@ export default class Navbarx extends React.Component {
   componentDidMount(){
     const token = getFromStorage('token');
     this.setState({token});
-    axios.get('https://stormy-eyrie-81072.herokuapp.com/api/auth/me', {
+    axios.get(apiUrl+'api/auth/me', {
       headers: {
         "Authorization": `Bearer ${token}`
       }
@@ -54,14 +55,15 @@ export default class Navbarx extends React.Component {
   }
   logOut = ()=> {
     window.localStorage.clear();
-    window.location.pathname = "/"
-    // axios.post('https://stormy-eyrie-81072.herokuapp.com/api/auth/logout', {
+    // console.log(this.state.token, 'this.state.token');
+    // axios.post(apiUrl+'api/auth/logout', {
     //   headers: {
     //     "Authorization": `Bearer ${this.state.token}`
     //   }
     // }).then(res => {
     //   console.log(res, 'res');
-    //
+    //   window.localStorage.clear();
+    //   // window.location.pathname = "/"
     // }).catch(err => {
     //   console.log(err);
     // })
@@ -70,62 +72,38 @@ export default class Navbarx extends React.Component {
     const {userData, isLoading} = this.state;
     return (
       <div className="test">
-      <Navbar  color="dark"  expand="md">
-        <NavbarBrand href="/">BookBooking</NavbarBrand>
-        
-        <NavbarToggler onClick={this.toggle} />
+      <Navbar color="dark"  expand="md">
+        <NavbarBrand style={{color:"whitesmoke"}}  href="/">BookBooking</NavbarBrand>
+
+        <NavbarToggler onClick={this.toggle}/>
         <Collapse isOpen={this.state.isOpen} navbar>
-        
+
             {
                 isLoading ? <BarLoader sizeUnit={"px"} size={70} color={'#123abc'} loading={this.state.isLoading}/> :
                 !userData ?
                 <div className="navbar">
                   <Nav  navbar>
                   <NavItem >
-                   <NavLink ><Link to='/signup'><Button color="success" >تسجيل</Button> </Link></NavLink>
+                   <NavLink ><Link to='/signup'><Button color="info" >تسجيل</Button> </Link></NavLink>
                   </NavItem>
                   <NavItem>
-                   <NavLink><Link to='/login'><Button color="success" >تسجيل دخول</Button> </Link></NavLink>
+                   <NavLink><Link to='/login'><Button color="info" >تسجيل دخول</Button> </Link></NavLink>
                   </NavItem>
                   </Nav>
                 </div>:
+                <Nav navbar>
                 <NavItem>
-                 <NavLink onClick={this.logOut}><Button color="success">تسجيل الخروج</Button></NavLink>
+                 <NavLink><Link to='/profile'><Button color="info">الصفحة الشخصية</Button></Link></NavLink>
                 </NavItem>
-                
+                <NavItem>
+                <NavLink onClick={this.logOut}><Button color="secondary">تسجيل الخروج</Button></NavLink>
+                </NavItem>
+                </Nav>
               }
-             
+
         </Collapse>
       </Navbar>
       </div>
-      // <div>
-      //   <Navbar color="light" light expand="md">
-      //     <NavbarBrand href="/">BookBooking</NavbarBrand>
-      //     <NavbarToggler onClick={this.toggle} />
-      //     <Collapse isOpen={this.state.isOpen} navbar>
-      //     <Nav className="ml-auto" navbar>
-      //       <UncontrolledDropdown nav inNavbar>
-      //         </UncontrolledDropdown>
-      //         {
-      //           isLoading ? <BarLoader sizeUnit={"px"} size={70} color={'#123abc'} loading={this.state.isLoading}/> :
-      //           !userData ?
-      //           <div>
-      //             <NavItem>
-      //              <NavLink ><Link to='/signup'><Button color="success" >تسجيل</Button> </Link></NavLink>
-      //             </NavItem>
-      //             <NavItem>
-      //              <NavLink><Link to='/login'><Button color="success" >تسجيل دخول</Button> </Link></NavLink>
-      //             </NavItem>
-      //           </div>:
-      //           <NavItem>
-      //            <NavLink onClick={this.logOut}><Button color="success">تسجيل الخروج</Button></NavLink>
-      //           </NavItem>
-      //         }
-      //       </Nav>
-      //     </Collapse>
-      //   </Navbar>
-      // </div>
-      
     );
   }
 }

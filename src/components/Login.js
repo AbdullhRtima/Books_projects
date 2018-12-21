@@ -17,10 +17,14 @@ import {
   Label,
   FormText,
   NavItem,
-  NavLink
+  NavLink,
+  Alert
 } from 'reactstrap';
 
+import './css/profile.css';
 import {setInStorage, getFromStorage} from '../helpers/storage.js';
+import apiUrl from "../config.js"
+
 
 export class Login extends Component {
   constructor(props) {
@@ -35,7 +39,7 @@ export class Login extends Component {
   componentDidMount(){
     const token = getFromStorage('token');
     this.setState({token})
-    axios.get('https://stormy-eyrie-81072.herokuapp.com/api/auth/me', {
+    axios.get(`${apiUrl}api/auth/me`, {
       headers: {
         "Authorization": `Bearer ${token}`
       }
@@ -66,7 +70,7 @@ export class Login extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    axios.post('https://stormy-eyrie-81072.herokuapp.com/api/auth/login',
+    axios.post(apiUrl+'api/auth/login',
         {
              email: this.state.email,
              password: this.state.password
@@ -80,7 +84,7 @@ export class Login extends Component {
      })
      .catch(err => {
        this.setState({
-           loginError : "User name or password is invalid! ",
+           loginError : "Username or password is invalid! ",
          })
      })
   }
@@ -96,7 +100,7 @@ export class Login extends Component {
       <Row>
         <Col xs='3'></Col>
         <Col>
-          <Form onSubmit={this.onSubmit} className="login">
+          <Form onSubmit={this.onSubmit} className="login-form">
             <h1>
               تسجيل دخول
             </h1>
@@ -109,16 +113,16 @@ export class Login extends Component {
               <Label for="examplePassword">كلمة المرور</Label>
               <Input onChange={this.onChange} type="password" name="password" placeholder="كلمة المرور"/>
             </FormGroup>
-            <a href='/recovery'>
-              <h5>هل نسيت كلمة المرور ؟</h5>
+            <Button style={{marginBottom:"15px"}} type='submit'>تسجيل دخول
+            </Button>
+            <a style={{marginBottom:"15px"}} href='/recovery'>
+              <h6>هل نسيت كلمة المرور ؟</h6>
             </a>
             {
-              loginError
-                ? <div>{loginError}</div>
+              loginError?
+              <Alert color="danger">{loginError}</Alert>
                 : (null)
             }
-            <Button type='submit'>تسجيل دخول
-            </Button>
           </Form>
         </Col>
         <Col xs='3'></Col>

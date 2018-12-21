@@ -12,19 +12,19 @@ const items = [
     id: 1,
     altText: 'Slide 1',
     caption: 'Slide 1',
-    url : '1.jpg'
+    url : '6.jpg'
   },
   {
     id: 2,
     altText: 'Slide 2',
     caption: 'Slide 2',
-    url : '2.jpg'
+    url : '7.jpg'
   },
   {
     id: 3,
     altText: 'Slide 3',
     caption: 'Slide 3',
-    url : '3.jpg'
+    url : '9.jpg'
   }
 ];
 
@@ -77,7 +77,7 @@ class Slider extends Component {
           onExited={this.onExited}
         >
          <img style={{
-         height:'100%' , 
+         height:'100%' ,
          width:'100%' }} src={item.url}/>
         </CarouselItem>
       );

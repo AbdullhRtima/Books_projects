@@ -5,11 +5,11 @@
     border: 1px solid #ccc;
     border-radius: 0.5rem;
   }
-  
+
   .remove-btn {
     margin-right: 0.5rem;
   }
-  
+
   .fade-enter {
     opacity: 0.01;
   }
@@ -24,4 +24,12 @@
     opacity: 0.01;
     transition: opacity 500ms ease-in;
   }
-  
+
+
+  .login-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin-top: 20px;
+  }

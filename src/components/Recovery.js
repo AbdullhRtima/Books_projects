@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Navbarx from './Navbar'
 import {Container ,Row ,Col,Button,FormGroup,Label,Input} from 'reactstrap' ;
+import apiUrl from "../config.js"
 
 class Recovery extends React.Component{
   constructor(props){
@@ -13,7 +14,7 @@ class Recovery extends React.Component{
   }
   onSubmit = event => {
     event.preventDefault();
-    axios.post('https://stormy-eyrie-81072.herokuapp.com/api/auth/recovery',{
+    axios.post(apiUrl+'api/auth/recovery',{
            email: this.state.email,
      })
      .then(res => {
@@ -46,7 +47,7 @@ class Recovery extends React.Component{
           }} required/>
         </FormGroup>
 
-        <Button type='submit' > اعادة تعين لكمة مرور </Button>
+        <Button type='submit' > اعادة تعيين كلمة المرور </Button>
         {
           this.state.message ?
             <h5>{this.state.message}</h5>
