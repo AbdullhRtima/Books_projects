@@ -3,6 +3,7 @@ body {
   margin: 0;
   color: #fff;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 .card{
     margin-bottom: 20px ;
@@ -12,7 +13,6 @@ body {
 };
 footer span {
     text-align: center ;
-
 }
 
 #CardImg{
@@ -30,7 +30,17 @@ background-image: url('https://bookabikia.com/images/bg.gif')
   height: 50vh;
   text-align: center;
 }
+.test > .collapse .navbar-collapse{
+  justify-content: flex-end !important;
+}
+.navbar-collapse{
+  justify-content: flex-end !important;
 
+}
+
+li{
+  list-style: none;
+}
 .bookimg{
   border: solid rgb(0, 0, 0) 1px;
   margin: 10px 20px;
@@ -82,4 +92,62 @@ background-image: url('https://bookabikia.com/images/bg.gif')
 }
 NavbarBrand{
   font-family: "Times New Roman", Times, serif;
+}
+
+.login-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin-top: 20px;
+}
+
+Input, textarea{
+  direction: RTL;
+}
+.user-unlogin{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 10%;
+}
+.loading-book-details{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 50px;
+}
+.div-row{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.contact{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.info-title-h3{
+  color: #0062cc;
+  margin-bottom: 15px;
+}
+.navbar-toggler-icon{
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 12 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5") !important;
+  background-color: whitesmoke !important;
+}
+.navbar-collapse{
+  text-align: center!important;
+}
+
+.qoute-div{
+  font-family: 'Crimson Text', serif !important;
+  height: 120vh;
+  padding-top: 40vh;
+}
+
+.qoute-div>h3{
+  color: #f8c220;
 }

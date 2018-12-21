@@ -4,65 +4,7 @@ import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Button, Container, Row, Col } from 'reactstrap';
 import {getFromStorage} from '../helpers/storage.js';
 import axios from 'axios';
-
-const books = [
-    {
-        id :"1",
-        name :" E 1 book",
-        case: "Give away",
-        description :"helllo iam ebook buy me or i will kill you !!"
-
-    },
-    {
-        id :"2",
-        name :" E 2 book",
-        case: "contact user ",
-        description :"helllo iam ebook buy me or i will kill you !!"
-
-    },
-    {
-        id :"3",
-        name :" E 3 book",
-        case: "for sell",
-        description :"helllo iam ebook buy me or i will kill you !!"
-
-    },
-    {
-        id :"4",
-        name :" E 4 book",
-        case: "exchange",
-        description :"helllo iam ebook buy me or i will kill you !!"
-
-    },
-    {
-        id :"4",
-        name :" E 4 book",
-        case: "exchange",
-        description :"helllo iam ebook buy me or i will kill you !!"
-
-    },
-    {
-        id :"4",
-        name :" E 4 book",
-        case: "exchange",
-        description :"helllo iam ebook buy me or i will kill you !!"
-
-    },
-    {
-        id :"4",
-        name :" E 4 book",
-        case: "exchange",
-        description :"helllo iam ebook buy me or i will kill you !!"
-
-    },
-    {
-        id :"4",
-        name :" E 4 book",
-        case: "exchange",
-        description :"helllo iam ebook buy me or i will kill you !!"
-
-    },
-]
+import apiUrl from "../config.js"
 
 class Books extends Component {
 constructor(props){
@@ -74,7 +16,7 @@ constructor(props){
 componentDidMount(){
   const token = getFromStorage('token');
   this.setState({token})
-  axios.get('https://stormy-eyrie-81072.herokuapp.com/api/books', {
+  axios.get(apiUrl+'api/books', {
     headers: {
       "Authorization": `Bearer ${token}`
     }
@@ -91,29 +33,31 @@ render() {
 const {userBooks} = this.state;
 let bookCards = userBooks && userBooks.map((book) =>{
      return (
-        <Col sm="3">
-          
+        <Col sm="3" style={{textAlign:"center"}}>
           <Link to={`/books/details/${book.id}`} >
             <img className="bookimg" src="book.jpg" alt="Card image cap" />
           </Link>
             <CardBody>
                 <CardTitle>{book.name} </CardTitle>
-                <CardSubtitle>{book.type}</CardSubtitle>
-                <CardText>{book.category}</CardText>
+                <CardSubtitle>{book.category}</CardSubtitle>
+                <CardText>{book.discription}</CardText>
             </CardBody>
-         
         </Col>
      )
 
-}) 
+})
 return (
  <div>
     <Container>
     <h1 style={{textAlign: "center"}}>أحدث الكتب  </h1>
     <br/>
-        <Row>
+      {
+        bookCards && bookCards.length > 0 ?
+        <Row style={{justifyContent:"center"}}>
           {bookCards}
         </Row>
+        : <h3 style={{textAlign:"center"}}>عذراً لا يوجد اي كتب في الموقع الآن</h3>
+      }
         </Container>
       </div>
     )
